@@ -28,6 +28,7 @@ const questions = [
 ];
 
 const writeToFile = (fileName, data) => {
+  
   fs.writeFile(fileName, data, (err) => {
     if (err) {
       console.log(err);
@@ -47,5 +48,12 @@ const init = () => {
     })
     .catch((err) => console.log(err));
 };
+// // promises are chained to directly pass inquirer data into fetch request
+// .then((res) => fetch(`https://api}`))
+// // promises are chained to parse the request for the json data
+// .then((res) => res.json())
+// // json data is accepted as user and logged to the console
+// .then((user) => console.log(user));
+
 
 init();
