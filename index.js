@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const makeLogo = require('./lib/shapes.test.js');
-// Question 1
+const { Circle, Triangle, Square } = require('./lib/shapes.js');
 
+
+// Questions for prompts
 const questions = [
   {
     type: 'input',
@@ -28,32 +29,29 @@ const questions = [
 ];
 
 const writeToFile = (fileName, data) => {
-  
   fs.writeFile(fileName, data, (err) => {
     if (err) {
       console.log(err);
     } else {
-      console.log('logo.svg');
+      console.log('Generated logo.svg');
     }
   });
 };
 
-const init = () => {
+function init () {
   inquirer
     .prompt(questions)
-    .then((answers) => {
-      console.log('Generated logo.svg');
-      const start = makeLogo(answers);
-      writeToFile('examples');
+    .then((input) => {
+      let logo;
+      if (input.shape === 'Circle') {
+        logo = new Circle('ABC', 'pink', 'blue')
+      } else if (input.shape === 'Triangle') {
+        logo =new Triangle()
+      } else {
+      }
+      writeToFile('logo.svg', logo.render());
     })
-    .catch((err) => console.log(err));
+    
 };
-// // promises are chained to directly pass inquirer data into fetch request
-// .then((res) => fetch(`https://api}`))
-// // promises are chained to parse the request for the json data
-// .then((res) => res.json())
-// // json data is accepted as user and logged to the console
-// .then((user) => console.log(user));
-
 
 init();
