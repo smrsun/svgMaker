@@ -2,13 +2,12 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const { Circle, Triangle, Square } = require('./lib/shapes.js');
 
-
 // Questions for prompts
 const questions = [
   {
     type: 'input',
     messasge: 'Enter up to 3 characters you would like for your logo.',
-    name: 'mono',
+    name: 'text',
   },
   {
     type: 'input',
@@ -41,11 +40,13 @@ const writeToFile = (fileName, data) => {
 function init () {
   inquirer
     .prompt(questions)
-    .then((input) => {
+
+    console.log("questions", questions)
+    .then((data) => {
       let logo;
-      if (input.shape === 'Circle') {
+      if (data.shape === 'Circle') {
         logo = new Circle('ABC', 'pink', 'blue')
-      } else if (input.shape === 'Triangle') {
+      } else if (data.shape === 'Triangle') {
         logo =new Triangle()
       } else {
       }
