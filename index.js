@@ -1,13 +1,14 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const { Circle, Triangle, Square } = require('./lib/shapes.js');
+const SVG = require('./lib/svg.js');
 
 // Questions for prompts
 const questions = [
   {
     type: 'input',
-    messasge: 'Enter up to 3 characters you would like for your logo.',
-    name: 'text',
+    message: 'Enter up to 3 characters you would like for your logo.',
+    name: 'char',
   },
   {
     type: 'input',
@@ -22,8 +23,8 @@ const questions = [
   },
   {
     type: 'input',
-    message: 'Enter the color you would like your shape.',
-    name: 'shape-color',
+    message: 'Enter the color you would like for your shapes background.',
+    name: 'shapeColor',
   },
 ];
 
@@ -37,22 +38,27 @@ const writeToFile = (fileName, data) => {
   });
 };
 
-function init () {
+function init() {
   inquirer
     .prompt(questions)
 
-    console.log("questions", questions)
     .then((data) => {
-      let logo;
-      if (data.shape === 'Circle') {
-        logo = new Circle('ABC', 'pink', 'blue')
-      } else if (data.shape === 'Triangle') {
-        logo =new Triangle()
-      } else {
+      console.log(data);
+      const { char, text, shape, shapeColor } = data;
+      const svg = new SVG();
+      let shapeObject;
+      if (shape === 'Circle') {
+        shapeObject = new Circle();
+      } else if (shape === 'Triangle') {
+        shapeObject = new Triangle();
+      } else if (shape === 'Square') {
+        shapeObject = new Square();
       }
-      writeToFile('logo.svg', logo.render());
-    })
-    
-};
+      shapeObject.setColor(shapeColor);
+      svg.setShape(shapeObject);
+      svg.setText(char, text)
+      writeToFile('logo.svg', svg.render());
+    });
+}
 
 init();
